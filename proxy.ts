@@ -4,6 +4,7 @@ import { NextResponse } from 'next/server'
 const ADMIN_EMAILS = (process.env.ADMIN_EMAILS ?? 'marioivanmorenopineda@gmail.com').split(',')
 
 const isPublic = createRouteMatcher([
+  '/',
   '/login(.*)',
   '/unauthorized(.*)',
   '/api/webhooks(.*)',
