@@ -10,7 +10,7 @@ const isPublic = createRouteMatcher([
   '/api/webhook(.*)',
 ])
 
-export default clerkMiddleware(async (auth, request) => {
+export const proxy = clerkMiddleware(async (auth, request) => {
   if (!isPublic(request)) {
     const { userId } = await auth.protect()
     const client = await clerkClient()
