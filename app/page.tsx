@@ -125,7 +125,7 @@ export default function LandingPage() {
       {/* Nav */}
       <nav style={{ position: "relative", zIndex: 2, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "24px 56px" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <img src="/mario-moreno.jpeg" alt="Mario Moreno" style={{ width: 42, height: 42, borderRadius: "50%", objectFit: "cover", border: "2px solid rgba(99,102,241,0.5)", flexShrink: 0 }} />
+          <img src="/mm-logo.png" alt="Mario Moreno" style={{ width: 42, height: 42, borderRadius: "50%", objectFit: "cover", flexShrink: 0 }} />
           <div style={{ display: "flex", flexDirection: "column" }}>
             <span style={{ fontSize: 16, fontWeight: 700, letterSpacing: "-0.02em", color: "#f8fafc" }}>Mario Moreno</span>
             <span style={{ fontSize: 10, color: "#64748b", fontWeight: 500 }}>Tu proyecto, bajo control</span>
@@ -190,12 +190,11 @@ export default function LandingPage() {
       {/* Footer */}
       <div style={{ position: "relative", zIndex: 2, padding: "24px 56px 32px", borderTop: "1px solid #1e293b", display: "flex", justifyContent: "space-between", alignItems: "center", color: "#64748b", fontSize: 12 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <img src="/mario-moreno.jpeg" alt="Mario Moreno" style={{ width: 20, height: 20, borderRadius: "50%", objectFit: "cover" }} />
+          <img src="/mm-logo.png" alt="Mario Moreno" style={{ width: 20, height: 20, borderRadius: "50%", objectFit: "cover" }} />
           <span>Mario Moreno · mariomoreno.work</span>
         </div>
         <div style={{ display: "flex", gap: 18 }}>
-          <span>mariomoreno.work</span>
-          <span>marioivanmorenopineda@gmail.com</span>
+          <span>info@mariomoreno.work</span>
           <a href="https://wa.me/584126504208" target="_blank" rel="noopener noreferrer" style={{ color: "#64748b", textDecoration: "none" }}>WhatsApp</a>
         </div>
       </div>
