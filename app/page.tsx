@@ -125,9 +125,9 @@ export default function LandingPage() {
       {/* Nav */}
       <nav style={{ position: "relative", zIndex: 2, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "24px 56px" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <MOSLogo size={42} />
+          <img src="/mario-moreno.jpeg" alt="Mario Moreno" style={{ width: 42, height: 42, borderRadius: "50%", objectFit: "cover", border: "2px solid rgba(99,102,241,0.5)", flexShrink: 0 }} />
           <div style={{ display: "flex", flexDirection: "column" }}>
-            <span style={{ fontSize: 16, fontWeight: 700, letterSpacing: "-0.02em", color: "#f8fafc" }}>MarioOS</span>
+            <span style={{ fontSize: 16, fontWeight: 700, letterSpacing: "-0.02em", color: "#f8fafc" }}>Mario Moreno</span>
             <span style={{ fontSize: 10, color: "#64748b", fontWeight: 500 }}>Tu proyecto, bajo control</span>
           </div>
         </div>
@@ -138,7 +138,6 @@ export default function LandingPage() {
 
       {/* Hero */}
       <div style={{ position: "relative", zIndex: 2, padding: "36px 56px 0", display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", gap: 24 }}>
-        <MOSLogo size={96} />
 
         <Badge dot>v1.0 · El portal está en línea</Badge>
 
@@ -191,8 +190,8 @@ export default function LandingPage() {
       {/* Footer */}
       <div style={{ position: "relative", zIndex: 2, padding: "24px 56px 32px", borderTop: "1px solid #1e293b", display: "flex", justifyContent: "space-between", alignItems: "center", color: "#64748b", fontSize: 12 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <MOSLogo size={20} />
-          <span>MarioOS · mariomoreno.work</span>
+          <img src="/mario-moreno.jpeg" alt="Mario Moreno" style={{ width: 20, height: 20, borderRadius: "50%", objectFit: "cover" }} />
+          <span>Mario Moreno · mariomoreno.work</span>
         </div>
         <div style={{ display: "flex", gap: 18 }}>
           <span>mariomoreno.work</span>
