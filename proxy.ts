@@ -11,14 +11,26 @@ const isPublic = createRouteMatcher([
 ])
 
 export const proxy = clerkMiddleware(async (auth, request) => {
-  if (!isPublic(request)) {
-    const { userId } = await auth.protect()
-    const client = await clerkClient()
-    const user = await client.users.getUser(userId)
-    const email = user.emailAddresses[0]?.emailAddress ?? ''
-    if (!ADMIN_EMAILS.includes(email)) {
-      return NextResponse.redirect(new URL('/unauthorized', request.url))
+  if (isPublic(request)) return
+
+  const { userId } = await auth.protect()
+  const client = await clerkClient()
+  const user = await client.users.getUser(userId)
+  const email = user.emailAddresses[0]?.emailAddress ?? ''
+  const isAdmin = ADMIN_EMAILS.includes(email)
+  const { pathname } = request.nextUrl
+
+  if (isAdmin) {
+    // Admin redirect away from portal
+    if (pathname.startsWith('/portal')) {
+      return NextResponse.redirect(new URL('/', request.url))
     }
+    return
+  }
+
+  // Client: only /portal/* allowed
+  if (!pathname.startsWith('/portal')) {
+    return NextResponse.redirect(new URL('/portal', request.url))
   }
 })
 
