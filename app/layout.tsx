@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'OutreachTracker',
-  description: 'B2B Email Outreach Dashboard',
+  title: 'MarioOS',
+  description: 'Tu portal de proyecto con Mario Moreno',
   icons: {
     icon: '/favicon.ico',
   },
