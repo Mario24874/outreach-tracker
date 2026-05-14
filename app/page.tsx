@@ -176,10 +176,10 @@ export default async function DashboardPage() {
 
       {/* KPIs — bento grid */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <KpiCard label="Emails hoy" value={emailsToday} icon={Mail} />
-        <KpiCard label="Esta semana" value={emailsWeek} icon={CalendarDays} />
-        <KpiCard label="Este mes" value={emailsMonth} icon={CalendarRange} />
-        <KpiCard label="Prospectos en cola" value={prospectsQueue} icon={Users} />
+        <KpiCard label="Emails hoy" value={emailsToday} icon={<Mail size={18} color="#a5b4fc" />} />
+        <KpiCard label="Esta semana" value={emailsWeek} icon={<CalendarDays size={18} color="#a5b4fc" />} />
+        <KpiCard label="Este mes" value={emailsMonth} icon={<CalendarRange size={18} color="#a5b4fc" />} />
+        <KpiCard label="Prospectos en cola" value={prospectsQueue} icon={<Users size={18} color="#a5b4fc" />} />
       </div>
 
       {/* Charts */}

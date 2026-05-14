@@ -16,6 +16,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: 'OutreachTracker',
   description: 'B2B Email Outreach Dashboard',
+  icons: {
+    icon: '/favicon.ico',
+  },
 }
 
 export default function RootLayout({

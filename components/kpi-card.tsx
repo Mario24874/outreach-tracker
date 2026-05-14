@@ -1,16 +1,16 @@
 'use client'
 
 import { useState, useRef } from 'react'
-import type { LucideIcon } from 'lucide-react'
+import type { ReactNode } from 'react'
 
 type KpiCardProps = {
   label: string
   value: number | string
-  icon: LucideIcon
+  icon: ReactNode
   description?: string
 }
 
-export function KpiCard({ label, value, icon: Icon, description }: KpiCardProps) {
+export function KpiCard({ label, value, icon, description }: KpiCardProps) {
   const [pos, setPos] = useState({ x: -200, y: -200, active: false })
   const ref = useRef<HTMLDivElement>(null)
 
@@ -48,7 +48,7 @@ export function KpiCard({ label, value, icon: Icon, description }: KpiCardProps)
           width: 38, height: 38, flexShrink: 0,
           display: 'flex', alignItems: 'center', justifyContent: 'center',
         }}>
-          <Icon size={18} color="#a5b4fc" />
+          {icon}
         </div>
         <div style={{ flex: 1, minWidth: 0 }}>
           <p style={{ fontSize: 10, color: '#64748b', fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', margin: 0 }}>

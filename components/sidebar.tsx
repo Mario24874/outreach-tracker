@@ -3,29 +3,25 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
-import { BarChart2, Mail, Target, Settings, Menu, X } from 'lucide-react'
+import { BarChart2, Mail, Target, Settings, Menu, X, MessageSquare } from 'lucide-react'
 
 const navItems = [
   { href: '/', label: 'Dashboard', icon: BarChart2 },
   { href: '/outreach', label: 'Outreach Log', icon: Mail },
   { href: '/prospects', label: 'Prospectos', icon: Target },
+  { href: '/messages', label: 'Mensajes', icon: MessageSquare },
   { href: '/settings', label: 'Configuración', icon: Settings },
 ]
 
 function MMLogo() {
   return (
     <div style={{
-      width: 32, height: 32, borderRadius: 16,
-      background: 'linear-gradient(135deg, #6366f1 0%, #06b6d4 100%)',
-      display: 'flex', alignItems: 'center', justifyContent: 'center',
-      boxShadow: '0 4px 18px rgba(99,102,241,0.35), inset 0 1px 0 rgba(255,255,255,0.15)',
-      flexShrink: 0, position: 'relative', overflow: 'hidden',
+      width: 36, height: 36, borderRadius: 10, flexShrink: 0,
+      overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center',
+      boxShadow: '0 4px 18px rgba(99,102,241,0.35)',
     }}>
-      <span style={{
-        position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
-        color: 'rgba(255,255,255,0.15)', fontSize: 11, fontFamily: 'monospace', fontWeight: 700,
-      }}>{'</>'}</span>
-      <span style={{ position: 'relative', color: '#fff', fontWeight: 800, fontSize: 13, letterSpacing: '-0.04em' }}>MM</span>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src="/favicon.ico" alt="Mario Moreno" width={36} height={36} style={{ objectFit: 'cover', display: 'block' }} />
     </div>
   )
 }
