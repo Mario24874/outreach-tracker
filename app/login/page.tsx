@@ -61,7 +61,7 @@ export default function LoginPage() {
             },
           },
         }}
-        forceRedirectUrl="/"
+        forceRedirectUrl="/dashboard"
       />
     </div>
   )

@@ -22,9 +22,11 @@ export const proxy = clerkMiddleware(async (auth, request) => {
   const { pathname } = request.nextUrl
 
   if (isAdmin) {
-    // Admin redirect away from portal
+    if (pathname === '/') {
+      return NextResponse.redirect(new URL('/dashboard', request.url))
+    }
     if (pathname.startsWith('/portal')) {
-      return NextResponse.redirect(new URL('/', request.url))
+      return NextResponse.redirect(new URL('/dashboard', request.url))
     }
     return
   }
