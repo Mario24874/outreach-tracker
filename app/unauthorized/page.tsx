@@ -1,5 +1,7 @@
 'use client'
 
+export const dynamic = 'force-dynamic'
+
 import { SignOutButton } from '@clerk/nextjs'
 
 export default function UnauthorizedPage() {

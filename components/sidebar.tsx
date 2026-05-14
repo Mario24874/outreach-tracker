@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 import { BarChart2, Mail, Target, Settings, Menu, X, MessageSquare } from 'lucide-react'
+import { LogoutButton } from '@/components/logout-button'
 
 const navItems = [
   { href: '/', label: 'Dashboard', icon: BarChart2 },
@@ -95,12 +96,9 @@ export function Sidebar() {
         }}>MM</div>
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ fontSize: 12, fontWeight: 600, color: '#f8fafc' }}>Mario Moreno</div>
-          <div style={{ fontSize: 10, color: '#64748b' }}>Admin · sistema activo</div>
+          <div style={{ fontSize: 10, color: '#64748b' }}>Admin</div>
         </div>
-        <span style={{
-          width: 7, height: 7, borderRadius: 4,
-          background: '#22c55e', boxShadow: '0 0 8px #22c55e', flexShrink: 0,
-        }} />
+        <LogoutButton />
       </div>
     </nav>
   )
