@@ -72,13 +72,14 @@ export default async function TicketsPage() {
               <select
                 name="prioridad"
                 required
+                defaultValue="media"
                 style={{
                   width: '100%', background: '#0f172a', border: '1px solid #1e293b', borderRadius: 8,
                   color: '#f8fafc', padding: '9px 12px', fontSize: 13, outline: 'none',
                 }}
               >
                 <option value="baja">Baja</option>
-                <option value="media" selected>Media</option>
+                <option value="media">Media</option>
                 <option value="alta">Alta</option>
                 <option value="critica">Crítica</option>
               </select>
