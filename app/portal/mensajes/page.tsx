@@ -1,5 +1,7 @@
 import { getPortalUser } from '@/lib/portal-user'
 import { redirect } from 'next/navigation'
+import { PortalWhatsappHistory } from '@/components/portal-whatsapp-history'
+import { PortalEmailModal } from '@/components/portal-email-modal'
 
 export default async function MensajesPage() {
   const user = await getPortalUser()
@@ -25,21 +27,11 @@ export default async function MensajesPage() {
               </svg>
             </div>
             <div>
-              <div style={{ color: '#f8fafc', fontSize: 14, fontWeight: 600 }}>WhatsApp Business</div>
-              <div style={{ color: '#64748b', fontSize: 12 }}>Próximamente</div>
+              <div style={{ color: '#f8fafc', fontSize: 14, fontWeight: 600 }}>WhatsApp</div>
+              <div style={{ color: '#64748b', fontSize: 12 }}>Historial de conversación</div>
             </div>
           </div>
-          <p style={{ color: '#64748b', fontSize: 13, lineHeight: 1.6, margin: 0 }}>
-            Mario está tramitando su licencia como Proveedor de Tecnología de Meta.
-            Una vez activo, podrás conectar tu número de WhatsApp y mantener todas las
-            conversaciones dentro de tu proyecto sin perder datos.
-          </p>
-          <div style={{
-            marginTop: 16, background: '#25d3661a', border: '1px solid #25d36630',
-            borderRadius: 8, padding: '10px 14px', color: '#34d399', fontSize: 12,
-          }}>
-            🔔 Te notificaremos cuando esté disponible
-          </div>
+          <PortalWhatsappHistory />
         </div>
 
         {/* Email */}
@@ -55,26 +47,14 @@ export default async function MensajesPage() {
               </svg>
             </div>
             <div>
-              <div style={{ color: '#f8fafc', fontSize: 14, fontWeight: 600 }}>Email directo</div>
-              <div style={{ color: '#64748b', fontSize: 12 }}>Contacto inmediato</div>
+              <div style={{ color: '#f8fafc', fontSize: 14, fontWeight: 600 }}>Email</div>
+              <div style={{ color: '#64748b', fontSize: 12 }}>info@mariomoreno.work</div>
             </div>
           </div>
           <p style={{ color: '#64748b', fontSize: 13, lineHeight: 1.6, margin: 0 }}>
-            Para comunicación por email, escríbenos directamente a:
+            Envía un correo directamente a Mario con archivos adjuntos, documentos, imágenes o enlaces.
           </p>
-          <a
-            href="mailto:marioivanmorenopineda@gmail.com"
-            style={{
-              display: 'block', marginTop: 12, background: '#6366f11a', border: '1px solid #6366f130',
-              borderRadius: 8, padding: '10px 14px', color: '#a5b4fc', fontSize: 13, fontWeight: 600,
-              textDecoration: 'none',
-            }}
-          >
-            ✉️ marioivanmorenopineda@gmail.com
-          </a>
-          <p style={{ color: '#475569', fontSize: 12, marginTop: 12, lineHeight: 1.5 }}>
-            Para soporte técnico urgente, usa el Chat en vivo o crea un Ticket con prioridad Alta.
-          </p>
+          <PortalEmailModal />
         </div>
       </div>
     </div>
