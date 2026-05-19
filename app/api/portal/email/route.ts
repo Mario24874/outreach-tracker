@@ -3,10 +3,9 @@ import { auth } from '@clerk/nextjs/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { Resend } from 'resend'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
 const TO = 'info@mariomoreno.work'
 const FROM = 'MarioOS Portal <noreply@mariomoreno.work>'
-const MAX_BYTES = 25 * 1024 * 1024 // 25 MB total attachments
+const MAX_BYTES = 25 * 1024 * 1024
 
 export async function POST(req: NextRequest) {
   const { userId } = await auth()
@@ -48,6 +47,7 @@ export async function POST(req: NextRequest) {
   const ccList = cc ? cc.split(',').map(e => e.trim()).filter(Boolean) : undefined
   const senderLabel = user.full_name ? `${user.full_name} <${user.email}>` : user.email
 
+  const resend = new Resend(process.env.RESEND_API_KEY)
   const { error } = await resend.emails.send({
     from: FROM,
     to: [TO],
