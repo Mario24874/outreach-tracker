@@ -13,6 +13,22 @@ const isPublic = createRouteMatcher([
 ])
 
 export const proxy = clerkMiddleware(async (auth, request) => {
+  const { pathname } = request.nextUrl
+
+  // Landing page: si el admin ya está logueado, mandarlo al dashboard
+  if (pathname === '/') {
+    const { userId } = await auth()
+    if (userId) {
+      const client = await clerkClient()
+      const user = await client.users.getUser(userId)
+      const email = user.emailAddresses[0]?.emailAddress ?? ''
+      if (ADMIN_EMAILS.includes(email)) {
+        return NextResponse.redirect(new URL('/dashboard', request.url))
+      }
+    }
+    return
+  }
+
   if (isPublic(request)) return
 
   const { userId } = await auth.protect()
@@ -20,12 +36,8 @@ export const proxy = clerkMiddleware(async (auth, request) => {
   const user = await client.users.getUser(userId)
   const email = user.emailAddresses[0]?.emailAddress ?? ''
   const isAdmin = ADMIN_EMAILS.includes(email)
-  const { pathname } = request.nextUrl
 
   if (isAdmin) {
-    if (pathname === '/') {
-      return NextResponse.redirect(new URL('/dashboard', request.url))
-    }
     if (pathname.startsWith('/portal')) {
       return NextResponse.redirect(new URL('/dashboard', request.url))
     }
