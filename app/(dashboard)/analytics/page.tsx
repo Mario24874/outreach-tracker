@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import { createAdminClient } from '@/lib/supabase/admin'
 import { KpiCard } from '@/components/kpi-card'
 import { VisitsByDayChart } from '@/components/analytics/visits-chart'
@@ -71,10 +73,12 @@ export default async function AnalyticsPage() {
   let data
   try {
     data = await getAnalyticsData()
-  } catch {
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err)
     return (
-      <div className="p-8" style={{ color: '#ef4444' }}>
-        Error cargando métricas del portfolio.
+      <div className="p-8 space-y-2">
+        <div style={{ color: '#ef4444', fontWeight: 600 }}>Error cargando métricas del portfolio</div>
+        <div style={{ color: '#64748b', fontSize: 12, fontFamily: 'monospace' }}>{msg}</div>
       </div>
     )
   }
