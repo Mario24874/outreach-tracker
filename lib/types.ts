@@ -160,6 +160,33 @@ export type Mensaje = {
 
 // ============================================================
 
+// ============================================================
+// Portfolio Analytics types
+// ============================================================
+
+export type PortfolioVisit = {
+  id: string
+  visited_at: string
+  session_id: string
+  page: string
+  referrer: string | null
+  user_agent: string | null
+}
+
+export type ReviewStatus = 'pending' | 'approved' | 'rejected'
+
+export type PortfolioReview = {
+  id: string
+  created_at: string
+  rating: number
+  comment: string | null
+  reviewer_name: string | null
+  reviewer_email: string | null
+  status: ReviewStatus
+}
+
+// ============================================================
+
 export type GmailThread = {
   id: string
   subject: string

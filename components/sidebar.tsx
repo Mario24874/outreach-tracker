@@ -3,14 +3,15 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
-import { BarChart2, Mail, Target, Settings, Menu, X, MessageSquare } from 'lucide-react'
+import { BarChart2, Mail, Target, Settings, Menu, X, MessageSquare, TrendingUp } from 'lucide-react'
 import { LogoutButton } from '@/components/logout-button'
 
 const navItems = [
-  { href: '/', label: 'Dashboard', icon: BarChart2 },
+  { href: '/dashboard', label: 'Dashboard', icon: BarChart2 },
   { href: '/outreach', label: 'Outreach Log', icon: Mail },
   { href: '/prospects', label: 'Prospectos', icon: Target },
   { href: '/messages', label: 'Mensajes', icon: MessageSquare },
+  { href: '/analytics', label: 'Analytics', icon: TrendingUp },
   { href: '/settings', label: 'Configuración', icon: Settings },
 ]
 
