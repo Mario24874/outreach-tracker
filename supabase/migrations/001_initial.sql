@@ -129,7 +129,5 @@ CREATE POLICY "Users own their templates" ON public.wa_templates
 -- Messages
 CREATE POLICY "Users own their messages" ON public.wa_messages
   FOR ALL USING (auth.uid() = user_id);
-
--- Service role bypass (for webhook inserts)
-CREATE POLICY "Service role full access to messages" ON public.wa_messages
-  FOR ALL USING (true) WITH CHECK (true);
+-- NOTE: The webhook route uses SUPABASE_SERVICE_ROLE_KEY which bypasses RLS
+-- automatically at the DB level. No explicit bypass policy needed here.
