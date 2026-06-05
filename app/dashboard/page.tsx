@@ -107,13 +107,10 @@ export default async function DashboardPage() {
           { href: '/dashboard/contacts', label: 'View contacts', desc: 'Manage your contact list', icon: '👥' },
           { href: '/dashboard/settings', label: 'Settings', desc: 'Configure WhatsApp number', icon: '⚙️' },
         ].map((link) => (
-          <a key={link.href} href={link.href} style={{
+          <a key={link.href} href={link.href} className="hover-indigo-border" style={{
             display: 'block', background: '#0f172a', border: '1px solid #1e293b',
             borderRadius: 10, padding: '16px 20px', textDecoration: 'none',
-            transition: 'border-color 0.15s',
           }}
-          onMouseEnter={(e) => { e.currentTarget.style.borderColor = '#6366f1'; }}
-          onMouseLeave={(e) => { e.currentTarget.style.borderColor = '#1e293b'; }}
           >
             <div style={{ fontSize: 20, marginBottom: 8 }}>{link.icon}</div>
             <div style={{ fontSize: 13, fontWeight: 600, color: '#f8fafc' }}>{link.label}</div>

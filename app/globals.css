@@ -43,3 +43,10 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #334155;
 }
+
+.hover-indigo-border {
+  transition: border-color 0.15s;
+}
+.hover-indigo-border:hover {
+  border-color: #6366f1 !important;
+}

@@ -65,13 +65,11 @@ export default async function TemplatesPage() {
             <a
               key={tpl.id}
               href={`/dashboard/templates/${tpl.id}`}
+              className="hover-indigo-border"
               style={{
                 display: 'block', background: '#0f172a', border: '1px solid #1e293b',
                 borderRadius: 12, padding: '18px 20px', textDecoration: 'none',
-                transition: 'border-color 0.15s',
               }}
-              onMouseEnter={(e: any) => { e.currentTarget.style.borderColor = '#6366f1'; }}
-              onMouseLeave={(e: any) => { e.currentTarget.style.borderColor = '#1e293b'; }}
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
                 {/* Icon */}
