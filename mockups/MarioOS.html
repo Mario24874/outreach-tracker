@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<title>MarioOS · Design</title>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"/>
+<style>
+  html, body { margin: 0; padding: 0; background: #f0eee9; font-family: Inter, system-ui, sans-serif; }
+  body { overflow: hidden; }
+  #root { width: 100vw; height: 100vh; }
+  * { box-sizing: border-box; }
+  /* Hide scrollbars inside artboards (design-canvas already does this for .dc-card) */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-thumb { background: rgba(148,163,184,0.2); border-radius: 3px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="design-canvas.jsx"></script>
+<script type="text/babel" src="primitives.jsx"></script>
+<script type="text/babel" src="screens-public.jsx"></script>
+<script type="text/babel" src="screens-portal.jsx"></script>
+<script type="text/babel" src="screens-admin.jsx"></script>
+<script type="text/babel" src="screens-admin2.jsx"></script>
+
+<script type="text/babel" data-presets="react">
+const App = () => (
+  <MOSProvider>
+    <DesignCanvas
+      title="MarioOS"
+      subtitle="SaaS/CRM privado · app.mariomoreno.work · paleta indigo · ES/EN · dark+light"
+    >
+    {/* SECTION 1 — PUBLIC */}
+    <DCSection id="public" title="Público" subtitle="Landing + autenticación">
+      <DCArtboard id="landing" label="01 · Landing" width={1280} height={1100}>
+        <ScreenLanding/>
+      </DCArtboard>
+      <DCArtboard id="login" label="02 · Login (Clerk)" width={1280} height={760}>
+        <ScreenLogin/>
+      </DCArtboard>
+    </DCSection>
+
+    {/* SECTION 2 — CLIENT PORTAL */}
+    <DCSection id="portal" title="Portal Cliente" subtitle="Lo que ven los clientes de Mario">
+      <DCArtboard id="portal-dash" label="03 · Dashboard cliente" width={1280} height={900}>
+        <ScreenPortalDash/>
+      </DCArtboard>
+      <DCArtboard id="portal-msg" label="04 · Mensajes" width={1280} height={820}>
+        <ScreenPortalMessages/>
+      </DCArtboard>
+      <DCArtboard id="portal-mobile" label="05 · Portal mobile" width={390} height={820}>
+        <ScreenPortalMobile/>
+      </DCArtboard>
+    </DCSection>
+
+    {/* SECTION 3 — ADMIN */}
+    <DCSection id="admin" title="Admin (Mario)" subtitle="Dashboard CRM, outreach, WhatsApp, perfiles">
+      <DCArtboard id="admin-dash" label="06 · Admin Dashboard" width={1440} height={900}>
+        <ScreenAdminDash/>
+      </DCArtboard>
+      <DCArtboard id="admin-crm" label="07 · CRM Kanban" width={1440} height={900}>
+        <ScreenAdminCRM/>
+      </DCArtboard>
+      <DCArtboard id="admin-wa" label="08 · WhatsApp" width={1440} height={900}>
+        <ScreenAdminWA/>
+      </DCArtboard>
+      <DCArtboard id="admin-outreach" label="09 · Outreach Analytics" width={1440} height={980}>
+        <ScreenAdminOutreach/>
+      </DCArtboard>
+      <DCArtboard id="admin-client" label="10 · Perfil de cliente" width={1440} height={900}>
+        <ScreenAdminClient/>
+      </DCArtboard>
+    </DCSection>
+  </DesignCanvas>
+  </MOSProvider>
+);
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
