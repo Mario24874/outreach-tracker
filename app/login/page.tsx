@@ -41,15 +41,14 @@ export default function LoginPage() {
       <div className="w-full max-w-sm px-4">
         {/* Logo */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl mb-4"
-            style={{ background: 'rgba(99,102,241,0.15)', border: '1px solid rgba(99,102,241,0.3)' }}>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-              <rect x="3" y="3" width="8" height="8" rx="2" fill="#6366f1"/>
-              <rect x="13" y="3" width="8" height="8" rx="2" fill="#a5b4fc" opacity="0.7"/>
-              <rect x="3" y="13" width="8" height="8" rx="2" fill="#a5b4fc" opacity="0.7"/>
-              <rect x="13" y="13" width="8" height="8" rx="2" fill="#6366f1" opacity="0.4"/>
-            </svg>
-          </div>
+          <img
+            src="/logo.webp"
+            alt="Mario Moreno"
+            width={64}
+            height={64}
+            className="inline-block rounded-full mb-4"
+            style={{ border: '1px solid rgba(99,102,241,0.3)' }}
+          />
           <h1 className="text-xl font-bold" style={{ color: '#f8fafc' }}>MarioOS</h1>
           <p className="text-sm mt-1" style={{ color: '#64748b' }}>WhatsApp Business Platform</p>
         </div>

@@ -92,17 +92,13 @@ export default function Sidebar() {
     >
       {/* Brand */}
       <div style={{ padding: '18px 16px', borderBottom: '1px solid #1e293b', display: 'flex', alignItems: 'center', gap: 10 }}>
-        <div style={{
-          width: 32, height: 32, borderRadius: 8, background: 'rgba(99,102,241,0.15)',
-          border: '1px solid rgba(99,102,241,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center',
-        }}>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-            <rect x="3" y="3" width="8" height="8" rx="2" fill="#6366f1"/>
-            <rect x="13" y="3" width="8" height="8" rx="2" fill="#a5b4fc" opacity="0.7"/>
-            <rect x="3" y="13" width="8" height="8" rx="2" fill="#a5b4fc" opacity="0.7"/>
-            <rect x="13" y="13" width="8" height="8" rx="2" fill="#6366f1" opacity="0.4"/>
-          </svg>
-        </div>
+        <img
+          src="/logo.webp"
+          alt="Mario Moreno"
+          width={32}
+          height={32}
+          style={{ borderRadius: '50%', border: '1px solid rgba(99,102,241,0.3)' }}
+        />
         <div>
           <div style={{ fontSize: 13, fontWeight: 700, color: '#f8fafc' }}>MarioOS</div>
           <div style={{ fontSize: 10, color: '#64748b', fontWeight: 500 }}>Admin</div>
