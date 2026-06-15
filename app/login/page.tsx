@@ -5,6 +5,7 @@ import { createClient } from '@/lib/supabase/client';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -24,6 +25,23 @@ export default function LoginPage() {
       setSent(true);
     }
     setLoading(false);
+  }
+
+  async function handlePassword() {
+    if (!email || !password) {
+      setError('Enter email and password.');
+      return;
+    }
+    setLoading(true);
+    setError('');
+    const supabase = createClient();
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    if (error) {
+      setError(error.message);
+      setLoading(false);
+    } else {
+      window.location.href = '/dashboard';
+    }
   }
 
   async function handleGoogle() {
@@ -86,6 +104,23 @@ export default function LoginPage() {
                 />
               </div>
 
+              <div>
+                <label className="text-xs font-semibold block mb-1.5"
+                  style={{ color: '#94a3b8', letterSpacing: '0.04em', textTransform: 'uppercase' }}>
+                  Password <span style={{ textTransform: 'none', color: '#475569' }}>(optional)</span>
+                </label>
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="••••••••"
+                  className="w-full px-3 py-2.5 rounded-lg text-sm outline-none transition-colors"
+                  style={{ background: '#020617', border: '1px solid #1e293b', color: '#f8fafc' }}
+                  onFocus={(e) => (e.target.style.borderColor = '#6366f1')}
+                  onBlur={(e) => (e.target.style.borderColor = '#1e293b')}
+                />
+              </div>
+
               {error && (
                 <p className="text-xs px-3 py-2 rounded-lg" style={{ background: 'rgba(244,63,94,0.1)', color: '#fb7185', border: '1px solid rgba(244,63,94,0.2)' }}>
                   {error}
@@ -99,6 +134,16 @@ export default function LoginPage() {
                 style={{ background: '#6366f1', color: '#fff', opacity: loading ? 0.6 : 1 }}
               >
                 {loading ? 'Sending...' : 'Send magic link'}
+              </button>
+
+              <button
+                type="button"
+                onClick={handlePassword}
+                disabled={loading}
+                className="w-full py-2.5 rounded-lg text-sm font-semibold transition-opacity"
+                style={{ background: '#0a0f1f', border: '1px solid #1e293b', color: '#f8fafc', opacity: loading ? 0.6 : 1 }}
+              >
+                Sign in with password
               </button>
             </form>
 
