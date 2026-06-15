@@ -11,7 +11,7 @@ SaaS MVP para pasar App Review de Meta. Permite enviar/recibir mensajes de Whats
 - Next.js 14.2 App Router, TypeScript strict
 - Tailwind CSS (dark theme: bg #020617, accent #6366f1, WhatsApp #25D366)
 - Supabase (Postgres + Auth con magic link + Google)
-- Meta WhatsApp Cloud API directa (sin YCloud)
+- Meta WhatsApp Cloud API directa
 - Auth: Supabase SSR (`@supabase/ssr`) — NO Clerk
 
 ## Estructura clave
