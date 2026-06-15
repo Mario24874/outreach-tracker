@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server';
 import { notFound } from 'next/navigation';
 import TemplateSendForm from './TemplateSendForm';
+import DeleteTemplateButton from './DeleteTemplateButton';
 
 export default async function TemplateDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -29,7 +30,7 @@ export default async function TemplateDetailPage({ params }: { params: Promise<{
 
       {/* Template info */}
       <div style={{ background: '#0f172a', border: '1px solid #1e293b', borderRadius: 16, padding: '24px', marginBottom: 24 }}>
-        <div style={{ display: 'flex', alignItems: 'flex-start', gap: 16, marginBottom: 20 }}>
+        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 16, marginBottom: 20 }}>
           <div>
             <h1 style={{ fontSize: 20, fontWeight: 700, color: '#f8fafc', margin: '0 0 8px', fontFamily: 'monospace' }}>
               {template.meta_template_name}
@@ -51,6 +52,7 @@ export default async function TemplateDetailPage({ params }: { params: Promise<{
               </span>
             </div>
           </div>
+          <DeleteTemplateButton name={template.meta_template_name} />
         </div>
 
         {/* Components */}

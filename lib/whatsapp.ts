@@ -83,6 +83,17 @@ export async function createTemplate(
   return res.json();
 }
 
+export async function deleteTemplate(name: string) {
+  const res = await fetch(
+    `${WHATSAPP_API}/${process.env.META_WABA_ID}/message_templates?name=${encodeURIComponent(name)}`,
+    {
+      method: 'DELETE',
+      headers: { Authorization: `Bearer ${process.env.META_WHATSAPP_TOKEN}` },
+    }
+  );
+  return res.json();
+}
+
 export async function markMessageRead(wamid: string) {
   const res = await fetch(
     `${WHATSAPP_API}/${process.env.META_PHONE_NUMBER_ID}/messages`,
