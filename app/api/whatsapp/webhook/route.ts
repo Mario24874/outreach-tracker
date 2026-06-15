@@ -28,6 +28,21 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const supabase = getServiceClient();
 
+    // Observability: log every received event (field + counts) so webhook
+    // delivery can be confirmed in the service logs.
+    console.log(
+      '[webhook] received',
+      JSON.stringify(
+        (body.entry ?? []).flatMap((e: any) =>
+          (e.changes ?? []).map((c: any) => ({
+            field: c.field,
+            statuses: c.value?.statuses?.length ?? 0,
+            messages: c.value?.messages?.length ?? 0,
+          }))
+        )
+      )
+    );
+
     for (const entry of body.entry ?? []) {
       for (const change of entry.changes ?? []) {
         if (change.field !== 'messages') continue;
