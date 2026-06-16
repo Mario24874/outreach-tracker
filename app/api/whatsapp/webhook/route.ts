@@ -48,6 +48,12 @@ export async function POST(req: NextRequest) {
         if (change.field !== 'messages') continue;
         const value = change.value;
 
+        // Detailed delivery/matching diagnostics
+        for (const m of value.messages ?? [])
+          console.log('[webhook] inbound from=', m.from, 'type=', m.type);
+        for (const s of value.statuses ?? [])
+          console.log('[webhook] status=', s.status, 'to=', s.recipient_id);
+
         // Status updates (sent → delivered → read)
         for (const status of value.statuses ?? []) {
           await supabase
