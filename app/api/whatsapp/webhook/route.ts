@@ -76,12 +76,14 @@ export async function POST(req: NextRequest) {
           // formatting (+, spaces, dashes) by comparing the digit string.
           const digits = (phoneFrom ?? '').replace(/\D/g, '');
 
-          const { data: existingContact } = await supabase
+          // Match by digits-only so any stored format (+, spaces, dashes) works.
+          const { data: candidates } = await supabase
             .from('contacts')
-            .select('id, user_id')
-            .or(`phone.eq.${digits},phone.eq.+${digits}`)
-            .limit(1)
-            .maybeSingle();
+            .select('id, user_id, phone');
+          const existingContact =
+            candidates?.find(
+              (c: any) => (c.phone ?? '').replace(/\D/g, '') === digits
+            ) ?? null;
 
           if (existingContact) {
             await supabase.from('wa_messages').insert({
