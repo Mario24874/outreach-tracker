@@ -66,12 +66,15 @@ export async function POST(req: NextRequest) {
         // Inbound messages
         for (const message of value.messages ?? []) {
           const phoneFrom = message.from;
+          // Meta sends `from` as digits only (no +). Match contacts tolerant of
+          // formatting (+, spaces, dashes) by comparing the digit string.
+          const digits = (phoneFrom ?? '').replace(/\D/g, '');
 
-          // Find existing contact by phone
           const { data: existingContact } = await supabase
             .from('contacts')
             .select('id, user_id')
-            .eq('phone', phoneFrom)
+            .or(`phone.eq.${digits},phone.eq.+${digits}`)
+            .limit(1)
             .maybeSingle();
 
           if (existingContact) {
