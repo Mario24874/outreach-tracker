@@ -68,6 +68,14 @@ export default function ChatView({
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [localMessages]);
 
+  // Auto-refresh the open conversation so inbound messages and delivery-status
+  // updates appear live, without a manual page refresh.
+  useEffect(() => {
+    if (!selectedContactId) return;
+    const interval = setInterval(() => router.refresh(), 4000);
+    return () => clearInterval(interval);
+  }, [selectedContactId, router]);
+
   async function sendMessage() {
     if (!text.trim() || !selectedContact) return;
     setSending(true);
