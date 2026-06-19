@@ -34,6 +34,34 @@ export async function POST(req: NextRequest) {
 
     const wamid = result.messages?.[0]?.id;
 
+    // Resolve a contact for every outbound message so the chat list can group
+    // by contact. Without this, messages sent from "New conversation" (no
+    // contactId) save contact_id=null and the list falls back to grouping by
+    // the raw phone string, producing duplicate, unopenable conversations
+    // (e.g. "+584145364657" vs "584145364657").
+    let resolvedContactId: string | null = contactId ?? null;
+    if (!resolvedContactId) {
+      const digits = String(to).replace(/\D/g, '');
+      const { data: candidates } = await supabase
+        .from('contacts')
+        .select('id, phone')
+        .eq('user_id', user.id);
+      const match = candidates?.find(
+        (c: any) => (c.phone ?? '').replace(/\D/g, '') === digits
+      );
+      if (match) {
+        resolvedContactId = match.id;
+      } else {
+        const { data: created, error: contactErr } = await supabase
+          .from('contacts')
+          .insert({ user_id: user.id, name: digits, phone: digits, stage: 'lead' })
+          .select('id')
+          .single();
+        if (contactErr) console.error('[send] contact create failed', contactErr);
+        resolvedContactId = created?.id ?? null;
+      }
+    }
+
     // Save to DB
     const msgData: any = {
       user_id: user.id,
@@ -44,7 +72,7 @@ export async function POST(req: NextRequest) {
       phone_to: to,
       wamid,
     };
-    if (contactId) msgData.contact_id = contactId;
+    if (resolvedContactId) msgData.contact_id = resolvedContactId;
     if (templateName) msgData.template_name = templateName;
     if (bodyParams) msgData.template_params = bodyParams;
 

@@ -61,7 +61,7 @@ const NAV_ITEMS = [
   },
 ];
 
-export default function Sidebar() {
+export default function Sidebar({ role = 'Client' }: { role?: string }) {
   const pathname = usePathname();
   const router = useRouter();
 
@@ -101,7 +101,7 @@ export default function Sidebar() {
         />
         <div>
           <div style={{ fontSize: 13, fontWeight: 700, color: '#f8fafc' }}>MarioOS</div>
-          <div style={{ fontSize: 10, color: '#64748b', fontWeight: 500 }}>Admin</div>
+          <div style={{ fontSize: 10, color: '#64748b', fontWeight: 500 }}>{role}</div>
         </div>
       </div>
 

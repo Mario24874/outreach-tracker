@@ -76,19 +76,31 @@ export async function POST(req: NextRequest) {
           // formatting (+, spaces, dashes) by comparing the digit string.
           const digits = (phoneFrom ?? '').replace(/\D/g, '');
 
-          // Match by digits-only so any stored format (+, spaces, dashes) works.
+          // The WhatsApp business number is shared across all tenants, so an
+          // inbound from this person may belong to any tenant that has them as
+          // a contact. Deliver a copy to EACH matching contact (attributed to
+          // that contact's owner) so no tenant misses a reply.
           const { data: candidates } = await supabase
             .from('contacts')
             .select('id, user_id, phone');
-          const existingContact =
-            candidates?.find(
-              (c: any) => (c.phone ?? '').replace(/\D/g, '') === digits
-            ) ?? null;
+          const matches = (candidates ?? []).filter(
+            (c: any) => (c.phone ?? '').replace(/\D/g, '') === digits
+          );
 
-          if (existingContact) {
+          for (const contact of matches) {
+            // Idempotency: skip if this message was already stored for this
+            // contact (Meta can redeliver the same wamid).
+            const { data: dup } = await supabase
+              .from('wa_messages')
+              .select('id')
+              .eq('wamid', message.id)
+              .eq('contact_id', contact.id)
+              .maybeSingle();
+            if (dup) continue;
+
             await supabase.from('wa_messages').insert({
-              user_id: existingContact.user_id,
-              contact_id: existingContact.id,
+              user_id: contact.user_id,
+              contact_id: contact.id,
               wamid: message.id,
               direction: 'inbound',
               type: message.type ?? 'text',
@@ -99,7 +111,7 @@ export async function POST(req: NextRequest) {
               meta_timestamp: new Date(parseInt(message.timestamp) * 1000).toISOString(),
             });
           }
-          // If no contact found, skip (could create an unlinked contact but keep it simple for MVP)
+          // If no contact matched, skip (keep MVP simple — no unlinked rows).
         }
       }
     }
