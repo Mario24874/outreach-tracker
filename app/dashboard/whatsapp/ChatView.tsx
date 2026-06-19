@@ -50,7 +50,15 @@ export default function ChatView({
   const [showNewChat, setShowNewChat] = useState(false);
   const [newPhone, setNewPhone] = useState('');
   const [newText, setNewText] = useState('');
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [search, setSearch] = useState('');
   const bottomRef = useRef<HTMLDivElement>(null);
+
+  // Messages shown in the open conversation, filtered by the search box.
+  const visibleMessages = search.trim()
+    ? localMessages.filter((m) => (m.body ?? '').toLowerCase().includes(search.toLowerCase()))
+    : localMessages;
 
   useEffect(() => {
     setLocalMessages(selectedMessages);
@@ -83,6 +91,34 @@ export default function ChatView({
       alert('Failed to send: ' + (data.error ?? 'unknown error'));
     }
     setSending(false);
+  }
+
+  async function clearConversation() {
+    if (!selectedContact) return;
+    setMenuOpen(false);
+    if (!confirm('¿Vaciar esta conversación? Se borrarán todos los mensajes (el contacto se conserva).')) return;
+    const res = await fetch(`/api/whatsapp/conversations?contactId=${selectedContact.id}`, { method: 'DELETE' });
+    const data = await res.json();
+    if (data.success) {
+      setLocalMessages([]);
+      router.refresh();
+    } else {
+      alert('No se pudo vaciar: ' + (data.error ?? 'error desconocido'));
+    }
+  }
+
+  async function deleteChat() {
+    if (!selectedContact) return;
+    setMenuOpen(false);
+    if (!confirm('¿Eliminar este chat? Se borrarán la conversación y el contacto. Esta acción no se puede deshacer.')) return;
+    const res = await fetch(`/api/whatsapp/conversations?contactId=${selectedContact.id}&deleteContact=true`, { method: 'DELETE' });
+    const data = await res.json();
+    if (data.success) {
+      router.push('/dashboard/whatsapp');
+      router.refresh();
+    } else {
+      alert('No se pudo eliminar: ' + (data.error ?? 'error desconocido'));
+    }
   }
 
   async function sendNewMessage() {
@@ -191,26 +227,98 @@ export default function ChatView({
               <div style={{ fontSize: 14, fontWeight: 600, color: '#f8fafc' }}>{selectedContact.name}</div>
               <div style={{ fontSize: 12, color: '#64748b' }}>{selectedContact.phone}</div>
             </div>
-            <a
-              href={`/dashboard/whatsapp/send?contact=${selectedContact.id}`}
-              style={{
-                marginLeft: 'auto', fontSize: 12, color: '#a5b4fc', textDecoration: 'none',
-                background: 'rgba(99,102,241,0.1)', padding: '6px 12px', borderRadius: 6,
-                border: '1px solid rgba(99,102,241,0.2)',
-              }}
-            >
-              Send template
-            </a>
+            <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 8, position: 'relative' }}>
+              <a
+                href={`/dashboard/whatsapp/send?contact=${selectedContact.id}`}
+                style={{
+                  fontSize: 12, color: '#a5b4fc', textDecoration: 'none',
+                  background: 'rgba(99,102,241,0.1)', padding: '6px 12px', borderRadius: 6,
+                  border: '1px solid rgba(99,102,241,0.2)',
+                }}
+              >
+                Send template
+              </a>
+              {/* Search toggle */}
+              <button
+                onClick={() => { setSearchOpen((v) => !v); setSearch(''); }}
+                title="Buscar en el chat"
+                style={{ background: 'transparent', border: 'none', color: searchOpen ? '#a5b4fc' : '#94a3b8', cursor: 'pointer', padding: 6, borderRadius: 6, display: 'flex' }}
+              >
+                <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <circle cx="11" cy="11" r="7"/>
+                  <path strokeLinecap="round" d="M21 21l-4.3-4.3"/>
+                </svg>
+              </button>
+              {/* 3-dots menu */}
+              <button
+                onClick={() => setMenuOpen((v) => !v)}
+                title="Más opciones"
+                style={{ background: 'transparent', border: 'none', color: menuOpen ? '#a5b4fc' : '#94a3b8', cursor: 'pointer', padding: 6, borderRadius: 6, display: 'flex' }}
+              >
+                <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+                  <circle cx="12" cy="5" r="2"/>
+                  <circle cx="12" cy="12" r="2"/>
+                  <circle cx="12" cy="19" r="2"/>
+                </svg>
+              </button>
+              {menuOpen && (
+                <>
+                  <div onClick={() => setMenuOpen(false)} style={{ position: 'fixed', inset: 0, zIndex: 40 }} />
+                  <div style={{
+                    position: 'absolute', top: '110%', right: 0, zIndex: 41,
+                    background: '#0f172a', border: '1px solid #1e293b', borderRadius: 10,
+                    padding: 6, minWidth: 200, boxShadow: '0 8px 24px rgba(0,0,0,0.4)',
+                  }}>
+                    {[
+                      { label: 'Información del contacto', onClick: () => { setMenuOpen(false); router.push(`/dashboard/contacts/${selectedContact.id}`); }, danger: false },
+                      { label: 'Buscar en el chat', onClick: () => { setMenuOpen(false); setSearchOpen(true); }, danger: false },
+                      { label: 'Vaciar conversación', onClick: clearConversation, danger: true },
+                      { label: 'Eliminar chat', onClick: deleteChat, danger: true },
+                    ].map((item) => (
+                      <button
+                        key={item.label}
+                        onClick={item.onClick}
+                        style={{
+                          display: 'block', width: '100%', textAlign: 'left',
+                          background: 'transparent', border: 'none', cursor: 'pointer',
+                          padding: '9px 12px', borderRadius: 6, fontSize: 13,
+                          color: item.danger ? '#f87171' : '#e2e8f0',
+                        }}
+                        onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; }}
+                        onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; }}
+                      >
+                        {item.label}
+                      </button>
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
           </div>
+
+          {/* Search bar */}
+          {searchOpen && (
+            <div style={{ padding: '10px 20px', borderBottom: '1px solid #1e293b', background: '#0a0f1f' }}>
+              <input
+                autoFocus
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Buscar mensajes…"
+                style={{ width: '100%', background: '#020617', border: '1px solid #1e293b', borderRadius: 8, padding: '8px 12px', color: '#f8fafc', fontSize: 13, outline: 'none', boxSizing: 'border-box' }}
+              />
+            </div>
+          )}
 
           {/* Messages */}
           <div style={{ flex: 1, overflowY: 'auto', padding: '16px 20px', display: 'flex', flexDirection: 'column', gap: 8 }}>
-            {localMessages.length === 0 ? (
+            {visibleMessages.length === 0 ? (
               <div style={{ textAlign: 'center', color: '#64748b', fontSize: 13, marginTop: 40 }}>
-                No messages yet. Send the first one below.
+                {search.trim()
+                  ? 'Sin resultados para tu búsqueda.'
+                  : 'No messages yet. Send the first one below.'}
               </div>
             ) : (
-              localMessages.map((msg) => (
+              visibleMessages.map((msg) => (
                 <div
                   key={msg.id}
                   style={{
