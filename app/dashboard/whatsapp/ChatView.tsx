@@ -310,7 +310,14 @@ export default function ChatView({
           )}
 
           {/* Messages */}
-          <div style={{ flex: 1, overflowY: 'auto', padding: '16px 20px', display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <div style={{
+            flex: 1, overflowY: 'auto', padding: '16px 20px', display: 'flex', flexDirection: 'column', gap: 8,
+            backgroundColor: '#0b1220',
+            backgroundImage: "linear-gradient(rgba(2,6,23,0.55), rgba(2,6,23,0.55)), url('/chat-bg.jpg')",
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+          }}>
             {visibleMessages.length === 0 ? (
               <div style={{ textAlign: 'center', color: '#64748b', fontSize: 13, marginTop: 40 }}>
                 {search.trim()
