@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
-import { listTemplates, createTemplate, deleteTemplate } from '@/lib/whatsapp';
+import { listTemplates, createTemplate, deleteTemplate, getTemplatesByName } from '@/lib/whatsapp';
 
 // Meta returns a generic "Invalid parameter" message plus a human-friendly
 // error_user_title/error_user_msg explaining the real cause. Surface the
@@ -54,6 +54,16 @@ export async function POST(req: NextRequest) {
     const { name, category, language, components } = await req.json();
     if (!name || !category || !language || !components) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
+    }
+
+    // Friendly duplicate-name check before hitting Meta (Meta otherwise returns
+    // an opaque "Invalid parameter" / category-mismatch error for duplicates).
+    const existing = await getTemplatesByName(name);
+    if ((existing?.data ?? []).some((t: any) => t.name === name)) {
+      return NextResponse.json(
+        { error: `Ya existe una plantilla con el nombre "${name}". Elige otro nombre.` },
+        { status: 400 }
+      );
     }
 
     const result = await createTemplate(name, category, language, withExamples(components));

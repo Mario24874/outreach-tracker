@@ -66,6 +66,14 @@ export async function listTemplates() {
   return res.json();
 }
 
+export async function getTemplatesByName(name: string) {
+  const res = await fetch(
+    `${WHATSAPP_API}/${process.env.META_WABA_ID}/message_templates?name=${encodeURIComponent(name)}&limit=50`,
+    { headers: { Authorization: `Bearer ${process.env.META_WHATSAPP_TOKEN}` } }
+  );
+  return res.json();
+}
+
 export async function createTemplate(
   name: string,
   category: 'MARKETING' | 'UTILITY',
