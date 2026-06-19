@@ -29,11 +29,14 @@ interface ChatViewProps {
 }
 
 function StatusIcon({ status }: { status: string }) {
-  if (status === 'read') return <span style={{ color: '#6366f1', fontSize: 11 }}>✓✓</span>;
-  if (status === 'delivered') return <span style={{ color: '#25D366', fontSize: 11 }}>✓✓</span>;
-  if (status === 'sent') return <span style={{ color: '#94a3b8', fontSize: 11 }}>✓</span>;
-  if (status === 'failed') return <span style={{ color: '#f43f5e', fontSize: 11 }}>✕</span>;
-  return <span style={{ color: '#64748b', fontSize: 11 }}>…</span>;
+  // WhatsApp-style ticks: light gray while pending/sent, green once delivered,
+  // blue once read, red on failure.
+  const base = { fontSize: 12, fontWeight: 700, letterSpacing: '-1px' } as const;
+  if (status === 'failed') return <span style={{ ...base, color: '#f87171' }}>✕</span>;
+  if (status === 'read') return <span style={{ ...base, color: '#38bdf8' }}>✓✓</span>;
+  if (status === 'delivered') return <span style={{ ...base, color: '#25D366' }}>✓✓</span>;
+  if (status === 'sent') return <span style={{ ...base, color: '#e2e8f0' }}>✓</span>;
+  return <span style={{ ...base, color: '#e2e8f0' }}>🕓</span>;
 }
 
 export default function ChatView({
