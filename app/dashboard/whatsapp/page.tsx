@@ -34,6 +34,21 @@ export default async function WhatsAppPage({
     .eq('user_id', user!.id)
     .order('name');
 
+  // Also surface contacts that have no messages yet, so they're reachable from
+  // the chat list (clicking opens an empty conversation ready to message).
+  for (const contact of contacts ?? []) {
+    if (seen.has(contact.id)) continue;
+    seen.add(contact.id);
+    conversations.push({
+      id: `contact-${contact.id}`,
+      contact_id: contact.id,
+      contacts: contact,
+      body: null,
+      created_at: null,
+      direction: null,
+    });
+  }
+
   // Get messages for selected contact
   let selectedMessages: any[] = [];
   let selectedContact: any = null;

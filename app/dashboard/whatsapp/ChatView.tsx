@@ -208,7 +208,7 @@ export default function ChatView({
                         {contact?.name ?? conv.phone_from ?? conv.phone_to ?? 'Unknown'}
                       </div>
                       <div style={{ fontSize: 12, color: '#64748b', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginTop: 2 }}>
-                        {conv.body?.slice(0, 40) ?? '(media)'}
+                        {conv.body ? conv.body.slice(0, 40) : 'Sin mensajes aún'}
                       </div>
                     </div>
                   </div>
