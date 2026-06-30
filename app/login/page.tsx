@@ -10,6 +10,13 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
+  // Destino tras login (p. ej. /admin cuando el middleware redirige aquí).
+  function nextPath(): string {
+    if (typeof window === 'undefined') return '/dashboard';
+    const n = new URLSearchParams(window.location.search).get('next');
+    return n && n.startsWith('/') ? n : '/dashboard';
+  }
+
   async function handleMagicLink(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
@@ -17,7 +24,7 @@ export default function LoginPage() {
     const supabase = createClient();
     const { error } = await supabase.auth.signInWithOtp({
       email,
-      options: { emailRedirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/auth/callback` },
+      options: { emailRedirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/auth/callback?next=${encodeURIComponent(nextPath())}` },
     });
     if (error) {
       setError(error.message);
@@ -40,7 +47,7 @@ export default function LoginPage() {
       setError(error.message);
       setLoading(false);
     } else {
-      window.location.href = '/dashboard';
+      window.location.href = nextPath();
     }
   }
 
@@ -49,7 +56,7 @@ export default function LoginPage() {
     const supabase = createClient();
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
-      options: { redirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/auth/callback` },
+      options: { redirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/auth/callback?next=${encodeURIComponent(nextPath())}` },
     });
     if (error) setError(error.message);
   }
