@@ -33,20 +33,6 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  // Portal admin privado: solo correos en la allowlist (por defecto el owner).
-  if (request.nextUrl.pathname.startsWith('/admin')) {
-    const allowed = (process.env.ADMIN_EMAILS || 'marioivanmorenopineda@gmail.com')
-      .split(',')
-      .map((e) => e.trim().toLowerCase())
-      .filter(Boolean);
-    if (!user || !allowed.includes((user.email ?? '').toLowerCase())) {
-      const url = request.nextUrl.clone();
-      url.pathname = '/login';
-      url.searchParams.set('next', '/admin');
-      return NextResponse.redirect(url);
-    }
-  }
-
   if (user && request.nextUrl.pathname === '/login') {
     const url = request.nextUrl.clone();
     url.pathname = '/dashboard';
